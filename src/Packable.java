@@ -4,13 +4,17 @@
 public interface Packable {
     void add(Sweet sweet);
 
-    Sweet getSweetByIndex(int index);
+    void removeSweetByIndex(int index) ;
 
-    Sweet getSweetLast();
+    void removeSweetLast();
 
     double getWeight();
 
     double getPrice();
 
     String getAllInfoAboutSweets();
+    
+    void reducePrice(double price);
+    
+    void reduceWeight(double weight);
 }

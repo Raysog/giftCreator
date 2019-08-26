@@ -95,24 +95,20 @@ public class Box implements Packable {
     }
 
     @Override
-    public Sweet getSweetByIndex(int index) {
+    public void removeSweetByIndex(int index) {
         if (this.isEmpty()){
-            System.out.println("Коробка пуста!");
-            return null;
+            System.out.println("Box is Empty!");
         }else {
-            if ((index < this.arrayBox.length) && (index > 0)) {
+            if ((index < this.arrayBox.length) && (index >= 0)) {
                 Sweet s = this.arrayBox[index];
                 this.arrayBox[index] = null;
-                this.arrayShift();
-                return s;
             }
-            System.out.println("Индекс указан неправильно!");
-            return null;
+            System.out.println("Index is incorrect");
         }
     }
 
     @Override
-    public Sweet getSweetLast() {
+    public void removeSweetLast() {
         if(!this.isEmpty()) {
             int lastIndex = -1;
             for (int i = this.arrayBox.length - 1; i > -1; i--) {
@@ -121,18 +117,17 @@ public class Box implements Packable {
                     break;
                 }
             }
-            return this.arrayBox[lastIndex];
+            arrayBox[lastIndex] = null;
         }
         else {
-            System.out.println("Коробка пуста!");
-            return null;
+            System.out.println("Box is Empty!");
         }
     }
 
     @Override
     public double getWeight() {
         if (this.isEmpty()){
-            System.out.println("Коробка пуста!");
+            System.out.println("Box is Empty!");
             return 0;
         }else {
             double weight = 0;
@@ -148,7 +143,7 @@ public class Box implements Packable {
     @Override
     public double getPrice() {
         if (this.isEmpty()){
-            System.out.println("Коробка пуста!");
+            System.out.println("Box is Empty!");
             return 0;
         }else {
             double price = 0;
@@ -164,7 +159,7 @@ public class Box implements Packable {
     @Override
     public String getAllInfoAboutSweets() {
         if (this.isEmpty()){
-            System.out.println("Коробка пуста!");
+            System.out.println("Box is Empty!");
             return null;
         }else {
             StringBuilder sb = new StringBuilder();
@@ -181,7 +176,7 @@ public class Box implements Packable {
         double min = this.arrayBox[0].getWeight();
         int index = 0;
         for (int i = 1 ; i < this.arrayBox.length; i++) {
-            if (this.arrayBox[i].getWeight() < min){
+            if ((this.arrayBox[i] != null) && (this.arrayBox[i].getWeight() < min)){
                 min = this.arrayBox[i].getWeight();
                 index = i;
             }
@@ -199,10 +194,12 @@ public class Box implements Packable {
         return counter;
     }
 
+    
+    @Override
     public void reduceWeight(double weight){
         while (this.isEmpty() ||(this.getWeight() >= weight) ){
             if (this.arrayBox.length - this.countFreePlace() != 2) {
-                this.getSweetByIndex(this.indexMinWeight());
+                this.removeSweetByIndex(this.indexMinWeight());
             } else {
                 Sweet first = null;
                 int indexFirst = -1;
@@ -220,9 +217,9 @@ public class Box implements Packable {
                     }
                 }
                 if ((this.getWeight() - second.getWeight() >= weight) && (this.getWeight() - first.getWeight() < weight)){
-                    this.getSweetByIndex(indexFirst);
+                    this.removeSweetByIndex(indexFirst);
                 } else {
-                    this.getSweetByIndex(indexSecond);
+                    this.removeSweetByIndex(indexSecond);
                 }
             }
         }
@@ -232,7 +229,7 @@ public class Box implements Packable {
         double min = this.arrayBox[0].getPrice();
         int index = 0;
         for (int i = 1 ; i < this.arrayBox.length; i++) {
-            if (this.arrayBox[i].getPrice() < min){
+            if ((this.arrayBox[i] != null) && (this.arrayBox[i].getPrice() < min)){
                 min = this.arrayBox[i].getPrice();
                 index = i;
             }
@@ -240,10 +237,11 @@ public class Box implements Packable {
         return index;
     }
 
+    @Override
     public void reducePrice(double price){
         while (this.isEmpty() ||(this.getPrice() >= price) ){
             if (this.arrayBox.length - this.countFreePlace() != 2) {
-                this.getSweetByIndex(this.indexMinPrice());
+                this.removeSweetByIndex(this.indexMinPrice());
             } else {
                 Sweet first = null;
                 int indexFirst = -1;
@@ -261,9 +259,9 @@ public class Box implements Packable {
                     }
                 }
                 if ((this.getPrice() - second.getPrice() >= price) && (this.getPrice() - first.getPrice() < price)){
-                    this.getSweetByIndex(indexFirst);
+                    this.removeSweetByIndex(indexFirst);
                 } else {
-                    this.getSweetByIndex(indexSecond);
+                    this.removeSweetByIndex(indexSecond);
                 }
             }
         }
