@@ -217,6 +217,7 @@ public class Box implements Packable {
 	        } 
         } else {
         	System.out.println("Weight is incorrect");
+        	
         }
     }
 
