@@ -100,10 +100,11 @@ public class Box implements Packable {
             System.out.println("Box is Empty!");
         }else {
             if ((index < this.arrayBox.length) && (index >= 0)) {
-                Sweet s = this.arrayBox[index];
                 this.arrayBox[index] = null;
+                this.arrayShift();
+            } else {
+                System.out.println("Index is incorrect");
             }
-            System.out.println("Index is incorrect");
         }
     }
 
@@ -159,8 +160,7 @@ public class Box implements Packable {
     @Override
     public String getAllInfoAboutSweets() {
         if (this.isEmpty()){
-            System.out.println("Box is Empty!");
-            return null;
+            return "Box is Empty!";
         }else {
             StringBuilder sb = new StringBuilder();
             for (Sweet s : this.arrayBox) {
@@ -184,44 +184,39 @@ public class Box implements Packable {
         return index;
     }
 
-    private int countFreePlace(){
-        int counter = 0;
-        for (Sweet s : this.arrayBox) {
-            if (s == null){
-                counter++;
-            }
-        }
-        return counter;
-    }
 
     
     @Override
     public void reduceWeight(double weight){
-        while (this.isEmpty() ||(this.getWeight() >= weight) ){
-            if (this.arrayBox.length - this.countFreePlace() != 2) {
-                this.removeSweetByIndex(this.indexMinWeight());
-            } else {
-                Sweet first = null;
-                int indexFirst = -1;
-                Sweet second = null;
-                int indexSecond = -1;
-                for (int i = 0; i < this.arrayBox.length; i++) {
-                    if (this.arrayBox[i] != null){
-                        if (first == null) {
-                            first = this.arrayBox[i];
-                            indexFirst = i;
-                        } else {
-                            second = this.arrayBox[i];
-                            indexSecond = i;
-                        }
-                    }
-                }
-                if ((this.getWeight() - second.getWeight() >= weight) && (this.getWeight() - first.getWeight() < weight)){
-                    this.removeSweetByIndex(indexFirst);
-                } else {
-                    this.removeSweetByIndex(indexSecond);
-                }
-            }
+        if (weight >= 0) {
+	    	while (!this.isEmpty() ||(this.getWeight() > weight) ){
+	            if (this.arrayBox.length - this.getFreePlaces() != 2) {
+	                this.removeSweetByIndex(this.indexMinWeight());
+	            } else {
+	                Sweet first = null;
+	                int indexFirst = -1;
+	                Sweet second = null;
+	                int indexSecond = -1;
+	                for (int i = 0; i < this.arrayBox.length; i++) {
+	                    if (this.arrayBox[i] != null){
+	                        if (first == null) {
+	                            first = this.arrayBox[i];
+	                            indexFirst = i;
+	                        } else {
+	                            second = this.arrayBox[i];
+	                            indexSecond = i;
+	                        }
+	                    }
+	                }
+	                if ((this.getWeight() - second.getWeight() >= weight) && (this.getWeight() - first.getWeight() < weight)){
+	                    this.removeSweetByIndex(indexFirst);
+	                } else {
+	                    this.removeSweetByIndex(indexSecond);
+	                }
+	            }
+	        } 
+        } else {
+        	System.out.println("Weight is incorrect");
         }
     }
 
@@ -239,31 +234,35 @@ public class Box implements Packable {
 
     @Override
     public void reducePrice(double price){
-        while (this.isEmpty() ||(this.getPrice() >= price) ){
-            if (this.arrayBox.length - this.countFreePlace() != 2) {
-                this.removeSweetByIndex(this.indexMinPrice());
-            } else {
-                Sweet first = null;
-                int indexFirst = -1;
-                Sweet second = null;
-                int indexSecond = -1;
-                for (int i = 0; i < this.arrayBox.length; i++) {
-                    if (this.arrayBox[i] != null){
-                        if (first == null) {
-                            first = this.arrayBox[i];
-                            indexFirst = i;
-                        } else {
-                            second = this.arrayBox[i];
-                            indexSecond = i;
-                        }
-                    }
-                }
-                if ((this.getPrice() - second.getPrice() >= price) && (this.getPrice() - first.getPrice() < price)){
-                    this.removeSweetByIndex(indexFirst);
-                } else {
-                    this.removeSweetByIndex(indexSecond);
-                }
-            }
-        }
+    	if(price >=0) {
+	        while (!this.isEmpty() ||(this.getPrice() > price) ){
+	            if (this.arrayBox.length - this.getFreePlaces() != 2) {
+	                this.removeSweetByIndex(this.indexMinPrice());
+	            } else {
+	                Sweet first = null;
+	                int indexFirst = -1;
+	                Sweet second = null;
+	                int indexSecond = -1;
+	                for (int i = 0; i < this.arrayBox.length; i++) {
+	                    if (this.arrayBox[i] != null){
+	                        if (first == null) {
+	                            first = this.arrayBox[i];
+	                            indexFirst = i;
+	                        } else {
+	                            second = this.arrayBox[i];
+	                            indexSecond = i;
+	                        }
+	                    }
+	                }
+	                if ((this.getPrice() - second.getPrice() >= price) && (this.getPrice() - first.getPrice() < price)){
+	                    this.removeSweetByIndex(indexFirst);
+	                } else {
+	                    this.removeSweetByIndex(indexSecond);
+	                }
+	            }
+	        }
+    	} else {
+    		System.out.println("Price is incorrect");
+    	}
     }
 }
