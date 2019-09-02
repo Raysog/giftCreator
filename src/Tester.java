@@ -12,7 +12,7 @@ public class Tester {
         System.out.println("weight = " + box.getWeight());
         System.out.println("price = " + box.getPrice());
         System.out.println("all info: \n" + box.getAllInfoAboutSweets());
-        box.reducePrice(0);
+        box.reducePrice(50);
         System.out.println("all info: \n" + box.getAllInfoAboutSweets());
 
     }
